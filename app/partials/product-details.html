@@ -1,0 +1,74 @@
+<div ng-controller="detailsTabCtrl as tabCtrl"> <!-- inits a scope variable called tab and set its value to 1 -->
+    <ul class="nav nav-pills nav-justified">
+        <li><a href="" ng-class="{active: tabCtrl.isTab(1)}" ng-click="tabCtrl.setTab(1)">Details</a></li>
+        <li><a href="" ng-class="{active: tabCtrl.isTab(2)}" ng-click="tabCtrl.setTab(2)">Reviews</a></li>
+        <li><a href="" ng-class="{active: tabCtrl.isTab(3)}" ng-click="tabCtrl.setTab(3)">New review</a></li>
+    </ul>
+    <div class="panel-body" ng-show="tabCtrl.isTab(1)">
+        <h4>Details</h4>
+        <img ng-src="app/images/{{currentProduct.image}}" height="200" class="thumbnail"/>
+        <h4>{{currentProduct.name}}<small>{{currentProduct.price | currency: 'Rs.'}}</small></h4>
+        <p><strong>{{currentProduct.desc}}</strong></p>
+    </div>
+    <div class="panel panel-success" ng-show="tabCtrl.isTab(2)">   <!-- ng-show internally uses display:none or display:block -->
+        <h4>Reviews</h4>
+        <div generate-list="currentProduct" list-property="reviews" badge-property="rating" item-property="comment">
+
+        </div>
+<!--        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="r in currentProduct.reviews">
+                <span class="badge">{{r.rating}}</span>
+                <strong>{{r.comment}}</strong>
+                <small>{{r.by}}</small>
+            </li>
+        </ul> -->
+    </div>
+    <div class="panel panel-failure" ng-show="tabCtrl.isTab(3)" ng-controller="detailsCtrl">
+        <h4>New Review</h4>
+        <div>
+            <strong>{{review.rating}}</strong>
+            <blockquote>
+                <span>{{review.comment}}</span>
+                <span>{{review.by}}</span>
+            </blockquote>
+        </div>
+        <form name="reviewForm" ng-submit="saveReview()">    <!-- add a new review , add to currentProduct.reviews -->
+            <fieldset>
+                <!-- data from this form automatically fills "review" object which is then avlbl in controller -->
+                <legend>Fill all fields</legend>
+                <div class="form-group">
+                    <label for="tby">Email:</label>
+                    <input type="email" id="tby" name="tby" placeholder="X@SAG.COM" ng-model="review.by"/>
+                </div>
+                <div class="alert alert-danger" ng-show="reviewForm.tby.$error.email"> <!-- validate email -->
+                    <strong>Please enter valid email</strong>
+                </div>
+                <div class="form-group">
+                    <label for="tc">Comment:</label>
+                    <input type="text" id="tc" name="tc" rows="2" class="form-control" ng-model="review.comment"
+                            required ng-minlength="10" ng-maxlength="100"/>
+                    <div ng-messages="reviewForm.tc.$error">    <!-- error message containing div -->
+                        <div ng-message="required">You have not entered text comment</div>
+                        <div ng-message="minlength">Ensure min length of 10 chars</div>
+                        <div ng-message="maxlength">Ensure max length of 100 chars</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="slr">Rating:</label>
+                    <select ng-options="rating for rating in [5,4,3,2,1]" ng-model="review.rating">
+                        <option value="rating">Provide your rating</option>
+                    </select>
+                </div>
+            </fieldset>
+            <button type="submit" class="btn btn-primary pull-right">Save</button>
+            <div class="well">
+                <span>Is Valid: {{reviewForm.$valid}}</span>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+

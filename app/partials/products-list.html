@@ -1,0 +1,13 @@
+<table class="table">
+    <tr ng-repeat="p in products | onlyHighReviews">
+        <td>
+            <img ng-src="app/images/{{p.image}}" alt="" width="120" class="thumbnail"/>
+            <button class="btn btn-primary btn-block" ng-click="selectProduct(p)">Select</button>
+        </td>
+        <td>
+            <h4>{{p.name}}</h4>
+            <strong>{{p.price | currency: 'INR'}}</strong>
+            <span>{{p.daysLeft | tagDays}}</span>
+        </td>
+    </tr>
+</table>

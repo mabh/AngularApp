@@ -1,0 +1,16 @@
+<div class="col-sm-3 panel panel-default">
+    <p class="panel-heading">
+        <h5>Cart Summary
+            <strong>{{cart.customerName}}</strong></h5>
+    </p>
+
+    <table>
+        <tr ng-repeat="item in cart.items">
+            <td><h6>{{item.name}}</h6>
+                <p class="well">{{item.qty}} * {{item.price}} =
+                    {{item.qty * item.price | currency: 'INR:'}}
+                </p>
+            </td>
+        </tr>
+    </table>
+</div>
